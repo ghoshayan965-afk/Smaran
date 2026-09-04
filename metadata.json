@@ -1,0 +1,8 @@
+{
+  "name": "Smaran AI",
+  "description": "AI-powered memory and knowledge assistant with intelligent recall and personal organizer workflows.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
