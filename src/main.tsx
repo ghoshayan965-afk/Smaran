@@ -1,6 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
+import {
+  supabase,
+  type Reminder,
+  type MoodEntry,
+  type Progress,
+} from './lib/supabase';
 
 type ScreenMode = 'morning' | 'evening';
 
@@ -14,32 +20,94 @@ const imageForMode: Record<ScreenMode, string> = {
   evening: '/2.png',
 };
 
-const messageForTarget: Record<string, string> = {
-  microphone: 'Voice companion is ready.',
-  profile: 'Your profile is ready to open.',
-  session: 'Starting your memory walk.',
-  mood: 'Thank you for sharing how you are arriving today.',
-  activities: 'Activities are ready to explore.',
-  progress: 'Your recent progress is ready to view.',
-  reminders: 'Your reminders are ready to view.',
-  more: 'More options are ready to open.',
-};
-
 export default function App() {
   const [mode, setMode] = useState<ScreenMode>(getScreenMode);
   const [notice, setNotice] = useState('');
+  const [reminders, setReminders] = useState<Reminder[]>([]);
+  const [todayMood, setTodayMood] = useState<MoodEntry | null>(null);
+  const [progress, setProgress] = useState<Progress | null>(null);
 
   useEffect(() => {
     const timer = window.setInterval(() => setMode(getScreenMode()), 60_000);
     return () => window.clearInterval(timer);
   }, []);
 
+  // Load reminders, today's mood, and progress from Supabase on mount
+  useEffect(() => {
+    (async () => {
+      const [{ data: remData }, { data: moodData }, { data: progData }] = await Promise.all([
+        supabase.from('reminders').select('*').order('time', { ascending: true }),
+        supabase
+          .from('mood_entries')
+          .select('*')
+          .gte('created_at', new Date().toISOString().split('T')[0])
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+        supabase.from('progress').select('*').eq('id', 1).maybeSingle(),
+      ]);
+
+      if (remData) setReminders(remData as Reminder[]);
+      if (moodData) setTodayMood(moodData as MoodEntry);
+      if (progData) setProgress(progData as Progress);
+    })();
+  }, []);
+
   const image = useMemo(() => imageForMode[mode], [mode]);
 
-  const handleAction = (target: string): void => {
-    setNotice(messageForTarget[target] ?? 'This area is ready to open.');
+  const showNotice = useCallback((msg: string) => {
+    setNotice(msg);
     window.setTimeout(() => setNotice(''), 2600);
-  };
+  }, []);
+
+  const handleAction = useCallback(
+    async (target: string): Promise<void> => {
+      switch (target) {
+        case 'microphone':
+          showNotice('Voice companion is ready.');
+          break;
+        case 'profile':
+          showNotice('Your profile is ready to open.');
+          break;
+        case 'session':
+          showNotice('Starting your memory walk.');
+          break;
+        case 'mood':
+          await supabase
+            .from('mood_entries')
+            .insert({ mood: 'good' as const });
+          showNotice('Thank you for sharing how you are arriving today.');
+          break;
+        case 'activities':
+          showNotice('Activities are ready to explore.');
+          break;
+        case 'progress': {
+          const summary = progress
+            ? `You are on level ${progress.level} with ${progress.total_stars} stars and a ${progress.current_streak}-day streak.`
+            : 'Your recent progress is ready to view.';
+          showNotice(summary);
+          break;
+        }
+        case 'reminders': {
+          if (reminders.length > 0) {
+            const formatted = reminders
+              .map((r) => `${r.time} — ${r.title} (${r.completed ? 'Done' : 'Pending'})`)
+              .join(', ');
+            showNotice(`Today's reminders: ${formatted}`);
+          } else {
+            showNotice('You have no reminders yet. You are doing wonderfully.');
+          }
+          break;
+        }
+        case 'more':
+          showNotice('More options are ready to open.');
+          break;
+        default:
+          showNotice('This area is ready to open.');
+      }
+    },
+    [reminders, progress, showNotice],
+  );
 
   return (
     <main className="app-shell">
