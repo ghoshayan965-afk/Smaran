@@ -171,10 +171,22 @@ input {
 
 /* ============ Auth Page ============ */
 
-.auth-page { min-height: 100vh; padding: 28px; background: #f5f1eb; color: #243d36; }
-.auth-shell { width: min(1120px, 100%); min-height: calc(100vh - 56px); margin: auto; display: grid; grid-template-columns: 0.9fr 1.1fr; overflow: hidden; border-radius: 28px; background: #fffdf9; box-shadow: 0 22px 70px rgba(55, 76, 65, .14); }
-.auth-story { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 38px 48px; background: #315e50; color: #f8f2e9; }
+.auth-page { min-height: 100vh; padding: 0; background: #fbf8f1 url('https://hebbkx1anhila5yf.public.blob.vercel-storage.com/ChatGPT%20Image%20Sep%2014%2C%202026%2C%2011_48_40%20PM-jtRSqpA0cIeS8WfEgtlXYwvqMaGQcG.png') center / 100% 100% no-repeat; color: #243d36; }
+.auth-shell { width: 100%; min-height: 100vh; margin: auto; display: grid; grid-template-columns: 0.47fr 0.53fr; overflow: hidden; background: transparent; }
+.auth-story { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 38px 48px; background: transparent; color: #f8f2e9; }
 .auth-story::before { content: ''; position: absolute; inset: 24% -25% auto -20%; height: 420px; border: 1px solid rgba(240, 204, 165, .22); border-radius: 50%; transform: rotate(-14deg); }
+.story-click-target { position: absolute; inset: 0; z-index: 3; border: 0; background: transparent; cursor: pointer; }
+.story-click-target:focus-visible { outline: 3px solid #315e50; outline-offset: -8px; background: rgba(255, 255, 255, .12); }
+.auth-story > :not(.story-click-target) { display: none; }
+.auth-card { background: transparent; }
+.auth-card > * { opacity: 0; pointer-events: none; }
+.auth-card .role-card,
+.auth-card .google-btn,
+.auth-card .auth-form,
+.auth-card .guest-btn { pointer-events: auto; }
+.auth-card .auth-form input,
+.auth-card .auth-form button { pointer-events: auto; }
+.auth-card .auth-demo-message { display: none; }
 .story-topline, .auth-mobile-mark { position: relative; display: flex; align-items: center; gap: 9px; font-family: 'Fraunces', serif; font-size: 20px; letter-spacing: .02em; }
 .story-topline span:last-child, .auth-mobile-mark span { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 9px; letter-spacing: .18em; opacity: .65; }
 .story-sun { width: 13px; height: 13px; border: 2px solid #edba8b; border-radius: 50%; box-shadow: 0 0 0 4px rgba(237,186,139,.14); }

@@ -21,6 +21,7 @@ export default function AuthPage() {
     <main className="auth-page">
       <div className="auth-shell">
         <section className="auth-story" aria-label="About Smaran">
+          <button className="story-click-target" type="button" aria-label="Continue as a guest" onClick={() => showDemoMessage('Guest access')} />
           <div className="story-topline"><span className="story-sun" /> स्मरण <span>SMARAN</span></div>
           <div className="story-copy">
             <p className="eyebrow">A little more present, every day</p>
