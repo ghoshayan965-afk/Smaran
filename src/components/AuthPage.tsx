@@ -4,8 +4,8 @@ type Role = 'patient' | 'asha' | 'caregiver';
 
 const roles = [
   { id: 'patient' as const, label: 'Patient', description: 'For your daily wellbeing', icon: '01' },
-  { id: 'asha' as const, label: 'ASHA Worker', description: 'For community care', icon: '02' },
-  { id: 'caregiver' as const, label: 'Caregiver', description: 'For someone you love', icon: '03' },
+  { id: 'caregiver' as const, label: 'Caregiver', description: 'For someone you love', icon: '02' },
+  { id: 'asha' as const, label: 'ASHA Worker', description: 'For community care', icon: '03' },
 ];
 
 export default function AuthPage() {

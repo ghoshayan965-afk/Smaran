@@ -187,7 +187,10 @@ input {
 .auth-card .guest-btn,
 .auth-card .auth-form input,
 .auth-card .auth-form button { pointer-events: auto; }
-.auth-card .auth-demo-message { display: none; }
+.auth-card .auth-demo-message { display: block; opacity: 1; }
+.auth-card .guest-btn { opacity: 1; }
+.auth-card .role-card:nth-child(3) { opacity: 1; background: rgba(251, 248, 241, .92); border-color: #e2e4dc; }
+.auth-card .role-card:nth-child(3).active { border-color: #315e50; background: #edf3ed; }
 .story-topline, .auth-mobile-mark { position: relative; display: flex; align-items: center; gap: 9px; font-family: 'Fraunces', serif; font-size: 20px; letter-spacing: .02em; }
 .story-topline span:last-child, .auth-mobile-mark span { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 9px; letter-spacing: .18em; opacity: .65; }
 .story-sun { width: 13px; height: 13px; border: 2px solid #edba8b; border-radius: 50%; box-shadow: 0 0 0 4px rgba(237,186,139,.14); }
