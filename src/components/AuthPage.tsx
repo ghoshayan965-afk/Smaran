@@ -44,16 +44,34 @@ export default function AuthPage() {
     setError('');
     setBusy(true);
     try {
-      const { error: oauthError } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin,
-          queryParams: { access_type: 'offline', prompt: 'consent' },
-        },
+      const demoEmail = role === 'caregiver'
+        ? 'demo.caregiver@smaran.app'
+        : 'demo.patient@smaran.app';
+      const demoPassword = 'smaran-demo-2026';
+      const demoName = role === 'caregiver' ? 'Demo Caregiver' : 'Demo Patient';
+
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email: demoEmail,
+        password: demoPassword,
       });
-      if (oauthError) throw oauthError;
+
+      if (signInError) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: demoEmail,
+          password: demoPassword,
+          options: { data: { role, display_name: demoName } },
+        });
+        if (signUpError) throw signUpError;
+        const { error: retryError } = await supabase.auth.signInWithPassword({
+          email: demoEmail,
+          password: demoPassword,
+        });
+        if (retryError) throw retryError;
+      }
+
+      await refreshProfile();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Google sign-in failed. Please try again.');
+      setError(err instanceof Error ? err.message : 'Sign-in failed. Please try again.');
       setBusy(false);
     }
   };
