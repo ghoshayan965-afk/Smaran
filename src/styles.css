@@ -1,7 +1,30 @@
 :root {
   color-scheme: light;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Plus Jakarta Sans', Arial, Helvetica, sans-serif;
   background: #faf7f5;
+
+  --c-bg: #faf7f5;
+  --c-surface: #ffffff;
+  --c-surface-alt: #f5f0ec;
+  --c-primary: #395f54;
+  --c-primary-light: #5a8a78;
+  --c-primary-dark: #2a4538;
+  --c-accent: #d4956a;
+  --c-accent-light: #e8b890;
+  --c-text: #2d2520;
+  --c-text-muted: #7a6e64;
+  --c-text-light: #a89c90;
+  --c-border: #e8e0d8;
+  --c-border-strong: #d4c8bc;
+  --c-success: #5a8a78;
+  --c-warning: #d4956a;
+  --c-error: #c46a5a;
+  --c-error-bg: #fdf0ed;
+  --c-shadow: 0 4px 24px rgba(57, 95, 84, 0.08);
+  --c-shadow-lg: 0 12px 48px rgba(57, 95, 84, 0.12);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
 }
 
 * {
@@ -17,18 +40,46 @@ body,
 
 body {
   min-width: 320px;
-  background: #faf7f5;
+  background: var(--c-bg);
 }
 
 button {
   font: inherit;
 }
 
+input {
+  font: inherit;
+}
+
+/* ============ Patient App (existing) ============ */
+
 .app-shell {
   min-height: 100vh;
   display: grid;
   place-items: start center;
-  background: #faf7f5;
+  background: var(--c-bg);
+  position: relative;
+}
+
+.patient-logout {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+  padding: 8px 16px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: 999px;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.patient-logout:hover {
+  background: var(--c-surface-alt);
+  color: var(--c-text);
 }
 
 .landing-frame {
@@ -61,7 +112,7 @@ button {
 }
 
 .hotspot:focus-visible {
-  outline: 3px solid #395f54;
+  outline: 3px solid var(--c-primary);
   outline-offset: 4px;
   background: rgba(255, 255, 255, 0.18);
 }
@@ -115,5 +166,874 @@ button {
 @media (prefers-reduced-motion: reduce) {
   .screen-notice {
     transition: none;
+  }
+}
+
+/* ============ Auth Page ============ */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: linear-gradient(160deg, #faf7f5 0%, #f0e8e0 40%, #e8ddd0 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--c-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--c-shadow-lg);
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  margin-bottom: 12px;
+  box-shadow: 0 4px 16px rgba(57, 95, 84, 0.2);
+}
+
+.auth-logo-mark {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.auth-title {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.auth-subtitle {
+  font-size: 14px;
+  color: var(--c-text-muted);
+  margin: 4px 0 0;
+}
+
+.role-toggle {
+  display: flex;
+  gap: 8px;
+  padding: 4px;
+  background: var(--c-surface-alt);
+  border-radius: var(--radius);
+}
+
+.role-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--c-text-muted);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.role-btn.active {
+  background: var(--c-surface);
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  box-shadow: 0 2px 8px rgba(57, 95, 84, 0.1);
+}
+
+.role-btn:hover:not(.active) {
+  color: var(--c-text);
+}
+
+.role-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.role-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.role-hint {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+  padding: 0 8px;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 1.5px solid var(--c-border-strong);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+
+.google-btn:hover:not(:disabled) {
+  background: #f8f5f3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.google-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.google-icon {
+  flex-shrink: 0;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--c-text-light);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-border);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.form-field input {
+  padding: 12px 14px;
+  border: 1.5px solid var(--c-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--c-surface);
+  color: var(--c-text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.form-field input:focus {
+  border-color: var(--c-primary-light);
+  box-shadow: 0 0 0 3px rgba(90, 138, 120, 0.12);
+}
+
+.form-field input::placeholder {
+  color: var(--c-text-light);
+}
+
+.auth-error {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--c-error-bg);
+  color: var(--c-error);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 14px 20px;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 180ms ease;
+  box-shadow: 0 4px 12px rgba(57, 95, 84, 0.2);
+}
+
+.auth-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(57, 95, 84, 0.28);
+}
+
+.auth-submit:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  text-align: center;
+  font-size: 14px;
+  color: var(--c-text-muted);
+  margin: 0;
+}
+
+.auth-switch-btn {
+  border: none;
+  background: none;
+  color: var(--c-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.auth-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--c-text-light);
+  margin: 8px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--c-border);
+}
+
+.auth-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px 0;
+  color: var(--c-text-muted);
+  font-size: 14px;
+}
+
+/* ============ Spinner ============ */
+
+.dash-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--c-border);
+  border-top-color: var(--c-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.dash-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 16px;
+  color: var(--c-text-muted);
+  font-size: 14px;
+}
+
+/* ============ Caregiver Dashboard ============ */
+
+.dash-page {
+  min-height: 100vh;
+  background: var(--c-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 1px 4px rgba(57, 95, 84, 0.04);
+}
+
+.dash-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dash-logo-mark {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--c-primary);
+  padding: 8px 14px;
+  border-radius: 12px;
+  background: var(--c-surface-alt);
+}
+
+.dash-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.dash-subtitle {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin: 2px 0 0;
+}
+
+.dash-logout {
+  padding: 8px 18px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: 999px;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.dash-logout:hover {
+  background: var(--c-surface-alt);
+  color: var(--c-text);
+}
+
+.dash-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.dash-sidebar {
+  width: 260px;
+  border-right: 1px solid var(--c-border);
+  background: var(--c-surface);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.sidebar-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--c-text-light);
+  margin: 0 0 4px;
+}
+
+.patient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.patient-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--c-text);
+  cursor: pointer;
+  transition: all 180ms ease;
+  text-align: left;
+  width: 100%;
+}
+
+.patient-chip.active {
+  background: var(--c-surface-alt);
+  border-color: var(--c-primary-light);
+}
+
+.patient-chip:hover:not(.active) {
+  background: var(--c-surface-alt);
+}
+
+.patient-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.patient-name {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-form-sidebar {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.link-form-sidebar input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: 8px;
+  font-size: 13px;
+  background: var(--c-surface);
+  color: var(--c-text);
+  outline: none;
+}
+
+.link-form-sidebar input:focus {
+  border-color: var(--c-primary-light);
+}
+
+.link-form-sidebar button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--c-primary);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 180ms ease;
+}
+
+.link-form-sidebar button:hover {
+  background: var(--c-primary-dark);
+}
+
+.dash-main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.patient-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.patient-avatar-lg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.patient-header-name {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin: 0;
+}
+
+.patient-header-sub {
+  font-size: 13px;
+  color: var(--c-text-muted);
+  margin: 2px 0 0;
+}
+
+.stat-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 12px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  box-shadow: var(--c-shadow);
+}
+
+.stat-icon {
+  font-size: 24px;
+}
+
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dash-panel {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--c-shadow);
+}
+
+.panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin: 0 0 14px;
+}
+
+.panel-empty {
+  font-size: 14px;
+  color: var(--c-text-light);
+  margin: 0;
+  padding: 12px 0;
+}
+
+.reminder-list,
+.activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.reminder-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-surface-alt);
+}
+
+.reminder-item.done {
+  opacity: 0.6;
+}
+
+.reminder-time {
+  font-weight: 600;
+  color: var(--c-primary);
+  font-size: 14px;
+  min-width: 50px;
+}
+
+.reminder-title {
+  flex: 1;
+  font-size: 14px;
+  color: var(--c-text);
+}
+
+.reminder-status {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.reminder-status.done {
+  background: rgba(90, 138, 120, 0.12);
+  color: var(--c-success);
+}
+
+.reminder-status.pending {
+  background: rgba(212, 149, 106, 0.12);
+  color: var(--c-warning);
+}
+
+.mood-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 120px;
+  padding-top: 8px;
+}
+
+.mood-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.mood-emoji {
+  font-size: 24px;
+}
+
+.mood-label {
+  font-size: 11px;
+  color: var(--c-text-muted);
+  text-transform: capitalize;
+}
+
+.mood-date {
+  font-size: 10px;
+  color: var(--c-text-light);
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-surface-alt);
+}
+
+.activity-type {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-text);
+}
+
+.activity-score {
+  font-size: 13px;
+  color: var(--c-primary);
+  font-weight: 600;
+}
+
+.activity-date {
+  font-size: 12px;
+  color: var(--c-text-light);
+}
+
+/* ============ Empty state (no patients linked) ============ */
+
+.dash-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 48px 24px;
+  text-align: center;
+  gap: 8px;
+}
+
+.dash-empty-icon {
+  font-size: 56px;
+  margin-bottom: 8px;
+}
+
+.dash-empty h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin: 0;
+}
+
+.dash-empty p {
+  font-size: 15px;
+  color: var(--c-text-muted);
+  max-width: 380px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.link-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 360px;
+}
+
+.link-form input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--c-border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  background: var(--c-surface);
+  color: var(--c-text);
+  outline: none;
+}
+
+.link-form input:focus {
+  border-color: var(--c-primary-light);
+  box-shadow: 0 0 0 3px rgba(90, 138, 120, 0.12);
+}
+
+.link-form button {
+  padding: 12px 22px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-light) 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 120ms ease;
+  white-space: nowrap;
+}
+
+.link-form button:hover {
+  transform: translateY(-1px);
+}
+
+.link-error {
+  font-size: 13px;
+  color: var(--c-error);
+  margin: 8px 0 0;
+}
+
+.link-error.small {
+  font-size: 12px;
+}
+
+.link-success {
+  font-size: 13px;
+  color: var(--c-success);
+  margin: 8px 0 0;
+}
+
+.link-success.small {
+  font-size: 12px;
+}
+
+/* ============ Responsive ============ */
+
+@media (max-width: 768px) {
+  .dash-body {
+    flex-direction: column;
+  }
+
+  .dash-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--c-border);
+    padding: 12px 16px;
+  }
+
+  .patient-list {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 8px;
+  }
+
+  .patient-chip {
+    flex-shrink: 0;
+    min-width: 140px;
+  }
+
+  .link-form-sidebar {
+    margin-top: 4px;
+  }
+
+  .dash-main {
+    padding: 16px;
+  }
+
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dash-header {
+    padding: 12px 16px;
+  }
+
+  .dash-title {
+    font-size: 18px;
+  }
+
+  .dash-subtitle {
+    font-size: 12px;
+  }
+
+  .role-btn {
+    padding: 10px 4px;
+  }
+
+  .role-icon {
+    font-size: 24px;
+  }
+
+  .role-label {
+    font-size: 12px;
   }
 }
